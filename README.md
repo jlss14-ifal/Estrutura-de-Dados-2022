@@ -9,4 +9,5 @@ Contém exercícios sobre:
 	- Simplesmente encadeadas:
 		- Lista simples;
 		- Fila simples.
+		- Pilha simples(ainda sendo feita);
 
