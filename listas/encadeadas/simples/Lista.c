@@ -27,6 +27,17 @@ int quantidadeElementos(Lista *l) {
 			    
 }
 
+int comparadorElementos(int indiceAtual, int valorAtual, int indice, int valor) {
+
+	if (indice == -1) // Se nao eh para comparar por indice
+		return (valorAtual == valor);
+	else
+		return (indiceAtual == indice);
+
+	return 1;
+
+}
+
 /*
  * Para procurar, a prioridade eh o indice, se ele for -1 entao procura por valor corespondente
  * */
@@ -40,9 +51,7 @@ Lista* procurarElementoEspecifico(Lista *l, int valor, int *indice, Lista **ante
 
 		contador++;
 
-		condicao = (contador == *indice) // Se o indice corresponde
-				|| 
-			((*indice == -1) && ((auxiliarAtual->info) == valor)); // Se nao eh para procurar pelo indice mas pelo valor
+		condicao = comparadorElementos(contador, (auxiliarAtual->info), *indice, valor);
 
 		if (condicao) {
 			*indice = contador;
@@ -63,14 +72,18 @@ Lista* procurarElementoEspecifico(Lista *l, int valor, int *indice, Lista **ante
 Lista* procurarElementoPorValor(Lista *l, int valor) {
 
 	int indice = -1;
-	return procurarElementoEspecifico(l, valor, &indice, NULL, NULL);
+	Lista *anterior = NULL, *atual = NULL;
+	
+	return procurarElementoEspecifico(l, valor, &indice, &anterior, &atual);
 
 }
 
 Lista* procurarElementoPorIndice(Lista *l, int indice) {
 
 	int valor = -1;
-	return procurarElementoEspecifico(l, valor, &indice, NULL, NULL);
+	Lista *anterior = NULL, *atual = NULL;
+	
+	return procurarElementoEspecifico(l, valor, &indice, &anterior, &atual);
 
 }
 
@@ -132,9 +145,12 @@ Lista* removeElementoPorValor(Lista **l, int valor) {
 
 Lista* removeElementoPorIndice(Lista **l, int indice) {
 
-	Lista *auxiliarAnterior = NULL, *auxiliarAtual = *l;
+	Lista *auxiliarAnterior = NULL, *auxiliarAtual = *l, *encontrou = NULL;
 
-	procurarElementoEspecifico(*l, -1, &indice, &auxiliarAnterior, &auxiliarAtual);
+	encontrou = procurarElementoEspecifico(*l, -1, &indice, &auxiliarAnterior, &auxiliarAtual);
+
+	if (encontrou == NULL)
+		return NULL;
 
 	return removeElemento(l, auxiliarAnterior, auxiliarAtual);
 

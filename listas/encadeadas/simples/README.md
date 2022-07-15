@@ -30,7 +30,7 @@ E neste endereço tem uma animação para ajudar a entender o passo a passo de i
 ## Notas
 
 ### 1
-Para evitar de "print infinito" quando é digitado algo diferente de algarismo em 'scanf("%i", &entrada)', foram criadas as funções (em Main.c) 'arrayIsDigit(char *array, int *saida)' e 'leEntradaNumerica(char *strEntrada, int tamanho, int *saida)' para tratar desses erros.
+Para evitar de "print infinito" quando é digitado algo diferente de algarismo em 'scanf("%i", &entrada)', foi criada a função (em Main.c) 'leEntradaNumerica(char *strEntrada, int tamanho, int *saida)' para tratar desses erros.
 
 ### 2
 Por fins de conveniência/didática, as opções da resposta está:

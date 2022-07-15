@@ -18,5 +18,5 @@ Uma das estruturas de dados bastante utilizadas em Computação é a Fila. Ela t
 ## Notas
 
 ### 1
-Para evitar de "print infinito" quando é digitado algo diferente de algarismo em 'scanf("%i", &entrada)', foram criadas as funções (em Main.c) 'arrayIsDigit(char *array, int *saida)' e 'leEntradaNumerica(char *strEntrada, int tamanho, int *saida)' para tratar desses erros.
+Para evitar de "print infinito" quando é digitado algo diferente de algarismo em 'scanf("%i", &entrada)', foi criada a função (em Main.c) 'leEntradaNumerica(char *strEntrada, int tamanho, int *saida)' para tratar desses erros.
 

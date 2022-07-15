@@ -6,15 +6,11 @@ typedef struct fila {
 	struct fila *proximo;
 } Fila;
 
-Fila* gerarSenha();
+Fila* adicionarNaFila(Fila *inicio, int senha);
 
-Fila* atenderPessoa(Fila** inicio);
+Fila* removerDaFila(Fila** inicio);
 
-int visualizarFila(Fila* incio);
+int visualizarFila(Fila* inicio);
 
-int retornaNaoAtendidos();
-
-int retornaAtendidos();
-
-Fila* retornaUltimaDaFila();
+Fila* retornarUltimoDaFila(Fila *inicio);
 

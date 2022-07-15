@@ -1,42 +1,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lista.h"
 #include <string.h>
 #include <ctype.h>
+#include "Lista.h"
 
-int arrayIsDigit(char *array, int *saida) {
-	
-	int i;
-	const int len = strlen(array);
+int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
 
-	for (i = 0; i < len; i++)
-		if (!isdigit(array[i])) 
-			return 1;
+	memset(strEntrada, 0, tamanho);	
+	scanf("%s", strEntrada);
 
-	if (sscanf(array, "%i", saida) == EOF) // Se a conversao da entrada esta incorreta
-		return 1;
-
-	return 0;
-
-}
-
-void leEntradaNumerica(char *strEntrada, int tamanho, int *saida) { // Alternativa melhor ao scanf
-
-	do {
-
-		memset(strEntrada, 0, sizeof(strEntrada)); // Inicia todas as posicoes com 0
-		fgets(strEntrada, (tamanho + 2), stdin); // Soma 2 contado o \n
-		strEntrada[strcspn(strEntrada, "\n")] = '\0'; // Troca todos os \n por \0
-
-	} while (arrayIsDigit(strEntrada, saida) != 0); // Caso o que tenha sido digitado nao seja um digito
-
+	return sscanf(strEntrada, "%d", opcao);
+		
 }
 
 int main()
 {
 
-	int indice, valor, opcao;
+	int indice =-1 , valor = -1, opcao = -1;
 	Lista *l = NULL, *auxiliar;
 	char strEntrada[10];
 
@@ -61,15 +42,13 @@ int main()
 		printf("\n| 8 - remover do inicio;                |");
 		printf("\n| 9 - remover do fim.                   |");
 		printf("\n| 10 - finalizar.                       |");
-		printf("\nObs: Limite de caracteres a serem digitados.");
 		printf("\n");
 
 	// ENTRADA
-	
+
 		printf("\nDigite um numero: ");
-		
-		leEntradaNumerica(strEntrada, 1, &opcao);
-		
+		leEntradaNumerica(strEntrada, 10, &opcao);
+
 	// MENU
 
 		switch (opcao) {
@@ -90,10 +69,10 @@ int main()
 			case 2: // Procurar por valor
 
 				printf("\nDigite o valor para procurar na lista: ");
-				leEntradaNumerica(strEntrada, 1, &valor);
+				leEntradaNumerica(strEntrada, 10, &valor);
 
 				auxiliar = procurarElementoPorValor(l, valor);
- 
+
 				if (auxiliar == NULL)
 					printf("\nValor nao encontrado.\n");
 				else
@@ -104,7 +83,7 @@ int main()
 			case 3: // Procurar por indice
 
 				printf("\nDigite o indice para procurar na lista: ");
-				leEntradaNumerica(strEntrada, 1, &indice);
+				leEntradaNumerica(strEntrada, 10, &indice);
 
 				auxiliar = procurarElementoPorIndice(l, indice);
 	
@@ -118,10 +97,10 @@ int main()
 			case 4: // Inserir em posicao especifica
 
 				printf("\nDigite o indice para inserir: ");
-				leEntradaNumerica(strEntrada, 1, &indice);
+				leEntradaNumerica(strEntrada, 10, &indice);
 
 				printf("\nDigite o novo valor para inserir na lista: ");
-				leEntradaNumerica(strEntrada, 1, &valor);
+				leEntradaNumerica(strEntrada, 10, &valor);
 		
 				auxiliar = inserirElementoPorIndice(&l, valor, indice);
 
@@ -133,8 +112,8 @@ int main()
 			case 5: // Inserir no inicio
 
 				printf("\nDigite o novo valor para inserir na lista: ");
-				leEntradaNumerica(strEntrada, 1, &valor);
-	
+				leEntradaNumerica(strEntrada, 10, &valor);
+				
 				auxiliar = inserirElementoPorIndice(&l, valor, (quantidadeElementos(l)-1));
 
 			break;
@@ -142,8 +121,8 @@ int main()
 			case 6: // Inserir no fim
 
 				printf("\nDigite o novo valor para inserir na lista: ");
-				leEntradaNumerica(strEntrada, 1, &valor);
-	
+				leEntradaNumerica(strEntrada, 10, &valor);
+				
 				l = inserirElemento(l, valor);
 
 			break;
@@ -151,7 +130,7 @@ int main()
 			case 7: // Remover por indice
 
 				printf("\nDigite o indice para remover: ");
-				leEntradaNumerica(strEntrada, 1, &indice);
+				leEntradaNumerica(strEntrada, 10, &indice);
 
 				auxiliar = removeElementoPorIndice(&l, indice);
 		
@@ -181,7 +160,7 @@ int main()
 			case 10: // Sair
 
 				printf("\nSaindo...\n");
-				return 0;
+				exit(0);
 			
 			break;
 

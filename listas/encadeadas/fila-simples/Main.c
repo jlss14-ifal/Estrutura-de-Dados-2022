@@ -3,42 +3,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "Fila.h"
+#include "FilaClinica.h"
 
-int arrayIsDigit(char *array, int *saida) {
-	
-	int i;
-	const int len = strlen(array);
+int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
 
-	for (i = 0; i < len; i++)
-		if (!isdigit(array[i])) 
-			return 1;
+	memset(strEntrada, 0, tamanho);	
+	scanf("%s", strEntrada);
 
-	if (sscanf(array, "%i", saida) == EOF) // Se a conversao da entrada esta incorreta
-		return 1;
-
-	return 0;
-
+	return sscanf(strEntrada, "%d", opcao);
+		
 }
-
-void leEntradaNumerica(char *strEntrada, int tamanho, int *saida) { // Alternativa melhor ao scanf
-
-	do {
-
-		memset(strEntrada, 0, sizeof(strEntrada)); // Inicia todas as posicoes com 0
-		fgets(strEntrada, (tamanho + 2), stdin); // Soma 2 contado o \n
-		strEntrada[strcspn(strEntrada, "\n")] = '\0'; // Troca todos os \n por \0
-
-	} while (arrayIsDigit(strEntrada, saida) != 0); // Caso o que tenha sido digitado nao seja um digito
-
-}
-
 
 int main()
 {
 
 	int opcao;
-	Fila *inicio = NULL, *auxiliar;
+	Fila *auxiliar;
+	FilaClinica *clinica = criarClinica();
 	char entrada[1]; // A entrada eh composta de apenas um algarismo
 
 	/* VISUALIZANDO */
@@ -67,19 +48,17 @@ int main()
 		
 			case 1:
 
-				if (inicio == NULL) // Se a lista esta vazia
-					inicio = gerarSenha();
-				else
-					gerarSenha();
+				gerarSenha(clinica);
 
-				auxiliar = retornaUltimaDaFila();
-				printf("Nova senha gerada: %i\n", auxiliar->senha);
+				auxiliar = retornarUltimoDaFila(clinica->primeiro);
+
+				if (auxiliar != NULL) printf("Nova senha gerada: %i\n", auxiliar->senha);
 
 			break;
 
 			case 2:
 
-				if (atenderPessoa(&inicio) == NULL) 
+				if (atenderPessoa(clinica) == NULL) 
 					printf("A fila esta vazia!");
 
 			break;
@@ -87,21 +66,21 @@ int main()
 			case 3:
 
 				printf("\nPessoas a serem atendidas: \n");
-				if (visualizarFila(inicio) == 1)
+				if (visualizarFilaClinica(clinica) == 1)
 					printf("A fila esta vazia!\n");
 
 			break;
 
 			case 4:
 
-				printf("\nQuantidade de atendimentos realizados eh %i\n", retornaAtendidos());
+				printf("\nQuantidade de atendimentos realizados eh %i\n", (clinica->atendidos));
 
 			break;
 
 			case 5:
 
 				printf("\nSaindo...\n");
-				return 0;
+				exit(0);
 
 			break;
 

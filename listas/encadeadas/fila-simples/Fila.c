@@ -3,49 +3,69 @@
 #include <stdlib.h>
 #include "Fila.h"
 
-static int naoAtendidos = 0, atendidos = 0;
-static Fila* ultimaDaFila = NULL;
-
-
-int retornaNaoAtendidos() {
-	return naoAtendidos;
-}
-
-int retornaAtendidos() {
-	return atendidos;
-}
-
-Fila* retornaUltimaDaFila() {
-	return ultimaDaFila;
-}
-
-Fila* gerarSenha() {
+Fila* retornarUltimoDaFila(Fila *inicio) {
 	
-	Fila *no = (Fila*) malloc(sizeof(Fila));
-	no->senha = naoAtendidos + atendidos + 1;
-	no->proximo = NULL;
-	
-	if (ultimaDaFila != NULL)
-		if (ultimaDaFila->senha > atendidos) // Se o ultimo ja foi antendido
-			ultimaDaFila->proximo = no;
-
-	ultimaDaFila = no;
-
-	naoAtendidos++;
-
-	return no;
-	
-}
-
-Fila* atenderPessoa(Fila** inicio) {
-
-	if (naoAtendidos == 0)
+	if (inicio == NULL)
 		return NULL;
 
-	naoAtendidos--;
-	atendidos++;
+	Fila *atual = inicio;
 
-	*inicio = (*inicio)->proximo;
+	while ((atual->proximo) != NULL) // Enquanto auxiliar nao for o ultimo(ou seja, seu proximo igual a NULL)
+		atual = atual->proximo;
+
+	return atual;
+
+}
+
+Fila* adicionarNaFila(Fila *inicio, int senha) {
+	
+	Fila *auxiliar = NULL, *no = (Fila*) malloc(sizeof(Fila));
+	no->senha = senha;
+	no->proximo = NULL;
+
+	if (inicio != NULL) {
+	
+		auxiliar = retornarUltimoDaFila(inicio);
+		auxiliar->proximo = no;
+
+	}
+
+	return no;
+
+}
+
+// Essa funcao so pode ser acessada por Fila.c pois nao esta em Fila.h
+Fila* retornarPenultimoDaFila(Fila *inicio) {
+	
+	if (inicio == NULL)
+		return NULL;
+
+	Fila *anterior = NULL, *atual = inicio;
+
+	while ((atual->proximo) != NULL) { // Enquanto o proximo nao for NULL(ou seja, "atual" eh o ultimo)
+		anterior = atual;
+		atual = atual->proximo;
+	}
+	return anterior;
+
+}
+
+Fila* removerDaFila(Fila** inicio) {
+
+	if (inicio == NULL)
+		return NULL;
+
+	Fila *penultimo = retornarPenultimoDaFila(*inicio), *removido = *inicio;
+
+	if (penultimo != NULL) {
+
+		removido = penultimo->proximo;
+		penultimo->proximo = NULL;
+	
+	} else
+		*inicio = NULL;
+
+	return removido;
 
 }
 
@@ -61,7 +81,6 @@ int visualizarFila(Fila *inicio) {
 		auxiliar = auxiliar->proximo;
 	}
 	printf("\n");
-
 
 	return 0;
 
