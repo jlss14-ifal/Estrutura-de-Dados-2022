@@ -5,7 +5,7 @@
 
 Pilha* criarPilha(Pilha *p) {
 
-	return NULL;
+	return (Pilha*) malloc(sizeof(Pilha));
 
 }
 
@@ -78,7 +78,7 @@ Pilha* pop(Pilha** inicio) { // Remove da pilha
 
 int estaVazia(Pilha *p) { // Retorna 1 se a pilha esta vazia e 0, caso contrario
 
-	if (p->proximo)
+	if (p != NULL)
 		return 0;
 
 	return 1;
@@ -93,7 +93,7 @@ int visualizarPilha(Pilha* inicio) {
 	Pilha *auxiliar = inicio;
 
 	while (auxiliar != NULL) {
-		printf("\n%d", auxiliar->senha);
+		printf("\n%c", auxiliar->x);
 		auxiliar = auxiliar->proximo;
 	}
 	printf("\n");
@@ -101,6 +101,3 @@ int visualizarPilha(Pilha* inicio) {
 	return 0;
 
 }
-
-
-
