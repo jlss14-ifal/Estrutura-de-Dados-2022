@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "FilaClinica.h"
+#include "Pilha.h"
 
 int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
 
@@ -18,9 +18,9 @@ int main()
 {
 
 	int opcao;
-	Fila *auxiliar;
-	FilaClinica *clinica = criarClinica();
-	char entrada[1]; // A entrada eh composta de apenas um algarismo
+	Pilha *auxiliar;
+	Pilha *inicio = NULL; //= criarPilha(inicio);
+	char entrada[1], caractere; // A entrada eh composta de apenas um algarismo
 
 	/* VISUALIZANDO */
 			        
@@ -30,10 +30,10 @@ int main()
 		printf("\n|----------------------------------|");
 		printf("\n| Escolha o que fazer:             |");
 		printf("\n|----------------------------------|");
-		printf("\n| 1 - Gerar senha;                 |");
-		printf("\n| 2 - Atender pessoa;              |");
-		printf("\n| 3 - Visualizar fila;             |");
-		printf("\n| 4 - Numero de pessoas antendidas;|");
+		printf("\n| 1 - Push;                        |");
+		printf("\n| 2 - Pop;                         |");
+		printf("\n| 3 - Visualizar Pilha;            |");
+		printf("\n| 4 - Top;                         |");
 		printf("\n| 5 - Sair.                        |");
 		printf("\n|----------------------------------|\n");
 	
@@ -48,32 +48,34 @@ int main()
 		
 			case 1:
 
-				gerarSenha(clinica);
+				printf("\nDigite um caracter: ");
+				scanf(" %c", &caractere);
 
-				auxiliar = retornarUltimoDaFila(clinica->primeiro);
-
-				if (auxiliar != NULL) printf("Nova senha gerada: %i\n", auxiliar->senha);
+				if (inicio == NULL)
+					inicio = push(inicio, caractere);
+				else
+					push(inicio, caractere);
 
 			break;
 
 			case 2:
 
-				if (atenderPessoa(clinica) == NULL) 
-					printf("A fila esta vazia!");
+				if (pop(&inicio) == NULL) 
+					printf("A Pilha esta vazia!");
 
 			break;
 
 			case 3:
 
 				printf("\nPessoas a serem atendidas: \n");
-				if (visualizarFilaClinica(clinica) == 1)
-					printf("A fila esta vazia!\n");
+				if (visualizarPilha(inicio) == 1)
+					printf("A Pilha esta vazia!\n");
 
 			break;
 
 			case 4:
 
-				printf("\nQuantidade de atendimentos realizados eh %i\n", (clinica->atendidos));
+				printf("\nTopo da pilha: %c\n", top(inicio));
 
 			break;
 
@@ -94,4 +96,3 @@ int main()
 	return 0;
 
 }
-
