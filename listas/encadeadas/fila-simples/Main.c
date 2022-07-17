@@ -59,7 +59,7 @@ int main()
 			case 2:
 
 				if (atenderPessoa(clinica) == NULL) 
-					printf("A fila esta vazia!");
+					printf("A fila esta vazia!\n");
 
 			break;
 
@@ -87,6 +87,8 @@ int main()
 			default:
 				printf("\n\nOpcao invalida: %i \n\n", opcao);
 			
+			scanf("%*[^\n]"); // Limpa buffer de entrada
+
 		}
 
 	}

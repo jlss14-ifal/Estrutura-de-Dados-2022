@@ -7,6 +7,7 @@
 
 int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
 
+	
 	memset(strEntrada, 0, tamanho);	
 	scanf("%s", strEntrada);
 
@@ -23,7 +24,7 @@ int main()
 	char entrada[1], caractere; // A entrada eh composta de apenas um algarismo
 
 	/* VISUALIZANDO */
-			        
+
 	while (1) {
 		
 
@@ -49,8 +50,11 @@ int main()
 			case 1:
 
 				printf("\nDigite um caracter: ");
-				scanf(" %c", &caractere);
-
+				caractere = '\0'; // Limpa caractere
+				memset(entrada, 0, 1); // Limpa entrada
+				scanf(" %c", entrada);
+				sscanf(entrada, "%c", &caractere);
+		
 				if (inicio == NULL)
 					inicio = push(inicio, caractere);
 				else
@@ -61,13 +65,13 @@ int main()
 			case 2:
 
 				if (pop(&inicio) == NULL) 
-					printf("A Pilha esta vazia!");
+					printf("A Pilha esta vazia!\n");
 
 			break;
 
 			case 3:
 
-				printf("\nPessoas a serem atendidas: \n");
+				printf("\nVisualizar pilha(da base ao topo): \n");
 				if (visualizarPilha(inicio) == 1)
 					printf("A Pilha esta vazia!\n");
 
@@ -75,7 +79,10 @@ int main()
 
 			case 4:
 
-				printf("\nTopo da pilha: %c\n", top(inicio));
+				if (visualizarPilha(inicio) == 1)
+					printf("A Pilha esta vazia!\n");
+				else
+					printf("\nTopo da pilha: %c\n", top(inicio)->x);
 
 			break;
 
@@ -90,6 +97,8 @@ int main()
 				printf("\n\nOpcao invalida: %i \n\n", opcao);
 			
 		}
+
+		scanf("%*[^\n]"); // Limpa buffer de entrada
 
 	}
 	

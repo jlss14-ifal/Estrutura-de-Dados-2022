@@ -169,6 +169,8 @@ int main()
 			
 		}
 
+		scanf("%*[^\n]"); // Limpa buffer de entrada
+
 	}
 
 	return 0;
