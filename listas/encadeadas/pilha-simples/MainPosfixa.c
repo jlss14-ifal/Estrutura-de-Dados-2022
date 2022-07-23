@@ -5,58 +5,99 @@
 #include <ctype.h>
 #include "Pilha.h"
 
-int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
-
-	
-	memset(strEntrada, 0, tamanho);	
-	scanf("%s", strEntrada);
-
-	return sscanf(strEntrada, "%d", opcao);
-		
-}
+typedef struct posfixa {
+	Pilha *p;
+}Posfixa;
 
 char* pilhaParaChar(Pilha **p) {
 
-	int i = 0;
-	char *saida;
+	int i = 0, quantidade = quantidadeDeConteudo(*p);
 
-	while (p != NULL) {
-		saida[i++] = pop(p)->x;
-	}
+	char* saida = (char*) malloc(sizeof(char) * quantidadeDeConteudo(*p));
+
+	for (i = 0; quantidade > i; i++)
+		saida[i] = pop(p)->x;
 
 	return saida;
 
 }
 
-int pushTudo(Pilha **p, char *parte) {
+int charPonteiroLen(char* ponteiro) {
 
-	int i;
+	  // calculate size in bytes
+  	int arraySize = sizeof(ponteiro);
+  	int intSize = sizeof(ponteiro[0]);
 
-	for (i = 0; strlen(parte) > i; i++) {
-		if (p == NULL)
-			*p = push(*p, parte[i]);
-		else
-			push(*p, parte[i]);
-	}
+  	// length
+  	int length = arraySize / intSize;
 
-	return i;
+	return length;
 
 }
 
-char* transformacaoPosfixa(char* infixa, int i) {
+void pushTudo(Posfixa *pos, char *parte) {
 
-	Pilha *p = NULL;
+	int i;
 
-	for (i = 0; strlen(infixa) > i; i++) {
-	
-		if (infixa[i] == '(')
-			i += pushTudo(&p, transformacaoPosfixa(infixa, i));
-		else if (infixa[i] == ')')
-			return pilhaParaChar(&p);
+	int tamanhoParte = charPonteiroLen(parte)-1;
+
+	for (i = 0; tamanhoParte > i; i++) {
+		if (pos->p == NULL)
+			pos->p = push(pos->p, parte[i]);
+		else
+			push(pos->p, parte[i]);
+	}
+
+	printf("\nEstado da pilha = %i\n", visualizarPilha(pos->p));
+
+}
+
+int ehLetra(char c) {
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+char* transformacaoPosfixa(char* infixa, int **i, int max) {
+
+	Posfixa *pos;
+	pos->p = NULL;
+	int j = (int) *i;
+
+	printf("ok");
+
+	for (;max > j; j++) {
+		
+		if (infixa[j] == '(') { // Inicio da recursividade
+
+			j++;
+			*i = j;
+	printf("ok");
+			char* array = transformacaoPosfixa(infixa, i, max);
+	printf("ok");
+			j = (int) *i;
+			pushTudo(pos, array);
+
+		} else if (infixa[j] == ')') { // Fim da recursividade
+
+			*i = j;
+
+			return pilhaParaChar(&pos->p);
+
+		} else if (ehLetra(infixa[j])) {
+
+			*i = j;
+
+			if (pos->p == NULL)
+				pos->p = push((pos->p), infixa[j]);
+			else
+				push((pos->p), infixa[j]);
+
+		}
+
+		printf("j = %i && max = %i\n", j, max);
 
 	}
 	
-	return NULL;
+	return pilhaParaChar(&pos->p);
 
 }
 
@@ -64,93 +105,10 @@ int main()
 {
 
 	char array[] = {'(', 'A', '+', 'B', '*', 'C', ')'};
+	int *i = 0;
 
-	printf("\n%s\n", transformacaoPosfixa(array, 0));
+	printf("\nTransformacao = %s\n", transformacaoPosfixa(array, &i,  8 ));
 
-/*	int opcao;
-	Pilha *auxiliar;
-	Pilha *inicio = NULL; //= criarPilha(inicio);
-	char entrada[1], caractere; // A entrada eh composta de apenas um algarismo
-
-	// VISUALIZANDO
-
-	while (1) {
-		
-
-		printf("\n|----------------------------------|");
-		printf("\n| Escolha o que fazer:             |");
-		printf("\n|----------------------------------|");
-		printf("\n| 1 - Push;                        |");
-		printf("\n| 2 - Pop;                         |");
-		printf("\n| 3 - Visualizar Pilha;            |");
-		printf("\n| 4 - Top;                         |");
-		printf("\n| 5 - Sair.                        |");
-		printf("\n|----------------------------------|\n");
-	
-	// ENTRADA
-	
-		printf("\nDigite um numero: ");
-		leEntradaNumerica(entrada, 1, &opcao);	
-
-	// MENU
-
-		switch (opcao) {
-		
-			case 1:
-
-				printf("\nDigite um caracter: ");
-				caractere = '\0'; // Limpa caractere
-				memset(entrada, 0, 1); // Limpa entrada
-				scanf(" %c", entrada);
-				sscanf(entrada, "%c", &caractere);
-		
-				if (inicio == NULL)
-					inicio = push(inicio, caractere);
-				else
-					push(inicio, caractere);
-
-			break;
-
-			case 2:
-
-				if (pop(&inicio) == NULL) 
-					printf("A Pilha esta vazia!\n");
-
-			break;
-
-			case 3:
-
-				printf("\nVisualizar pilha(da base ao topo): \n");
-				if (visualizarPilha(inicio) == 1)
-					printf("A Pilha esta vazia!\n");
-
-			break;
-
-			case 4:
-
-				if (visualizarPilha(inicio) == 1)
-					printf("A Pilha esta vazia!\n");
-				else
-					printf("\nTopo da pilha: %c\n", top(inicio)->x);
-
-			break;
-
-			case 5:
-
-				printf("\nSaindo...\n");
-				exit(0);
-
-			break;
-
-			default:
-				printf("\n\nOpcao invalida: %i \n\n", opcao);
-			
-		}
-
-		scanf("%*[^\n]"); // Limpa buffer de entrada
-
-	}
-*/	
 	return 0;
 
 }
