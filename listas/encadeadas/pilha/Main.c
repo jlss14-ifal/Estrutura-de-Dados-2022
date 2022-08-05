@@ -20,8 +20,8 @@ int main()
 
 	int opcao;
 	Pilha *auxiliar;
-	Pilha *inicio = NULL; //= criarPilha(inicio);
-	char entrada[1], caractere; // A entrada eh composta de apenas um algarismo
+	Pilha *atual = NULL; //= criarPilha(atual);
+	char entrada[1], caractere, auxiliarChar; // A entrada eh composta de apenas um algarismo
 
 	/* VISUALIZANDO */
 
@@ -55,34 +55,34 @@ int main()
 				scanf(" %c", entrada);
 				sscanf(entrada, "%c", &caractere);
 		
-				if (inicio == NULL)
-					inicio = push(inicio, caractere);
-				else
-					push(inicio, caractere);
+				push(&atual, caractere);
 
 			break;
 
 			case 2:
-
-				if (pop(&inicio) == NULL) 
+				
+				if (estaVazia(atual) == 1) 
 					printf("A Pilha esta vazia!\n");
+				else 
+					printf("[%c] foi removido.\n", pop(&atual));
 
 			break;
 
 			case 3:
 
-				printf("\nVisualizar pilha(da base ao topo): \n");
-				if (visualizarPilha(inicio) == 1)
+				printf("\nVisualizar pilha(do topo ao inicio): \n");
+
+				if (visualizarPilha(atual) == 1)
 					printf("A Pilha esta vazia!\n");
 
 			break;
 
 			case 4:
 
-				if (visualizarPilha(inicio) == 1)
+				if (estaVazia(atual) == 1)
 					printf("A Pilha esta vazia!\n");
 				else
-					printf("\nTopo da pilha: %c\n", top(inicio)->x);
+					printf("\nTopo da pilha: %c\n", top(atual)->conteudo);
 
 			break;
 

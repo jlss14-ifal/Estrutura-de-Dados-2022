@@ -3,101 +3,97 @@
 #include <stdlib.h>
 #include "Pilha.h"
 
-Pilha* criarPilha(Pilha *p) {
+Pilha* criarPilha() {
 
-	return (Pilha*) malloc(sizeof(Pilha));
+	Pilha *inicio = (Pilha*) malloc(sizeof(Pilha));
+	inicio->conteudo = '\0';
+	inicio->proximo = NULL;
+
+	return inicio;
 
 }
 
 
-Pilha* top(Pilha *inicio) { // Exibe o topo da pilha, ou seja, o ultimo
+Pilha* top(Pilha *atual) { // Exibe o topo da pilha, ou seja, o ultimo
 	
-	if (inicio == NULL)
+	if (atual == NULL)
 		return NULL;
-
-	Pilha *atual = inicio;
-
-	while ((atual->proximo) != NULL) // Enquanto auxiliar nao for o ultimo(ou seja, seu proximo igual a NULL)
-		atual = atual->proximo;
 
 	return atual;
 
 }
 
-Pilha* push(Pilha *inicio, char x) { // Adicionar na pilha
+Pilha* push(Pilha **atual, char conteudo) { // Adicionar na pilha
 	
-	Pilha *auxiliar = NULL, *no = (Pilha*) malloc(sizeof(Pilha));
-	no->x = x;
-	no->proximo = NULL;
+	Pilha *novo = (Pilha*) malloc(sizeof(Pilha));
+	novo->conteudo = conteudo;
+	novo->proximo = NULL;
 
-	if (inicio != NULL) {
-	
-		auxiliar = top(inicio);
-		auxiliar->proximo = no;
+	if (atual != NULL)
+		novo->proximo = *atual;
 
-	}
+	*atual = novo;
 
-	return no;
+	return novo;
 
 }
 
-// Essa funcao so pode ser acessada por Pilha.c pois nao esta em Pilha.h
-Pilha* secondTop(Pilha *inicio) {
+char pop(Pilha** atual) { // Remove da pilha
+
+	if (atual == NULL)
+		return '\0';
+
+	Pilha *penultimo = (*atual)->proximo, *removido = *atual;
+
+	*atual = (*atual)->proximo;
+
+	char conteudo = removido->conteudo;
 	
-	if (inicio == NULL)
-		return NULL;
+	free(removido);
 
-	Pilha *anterior = NULL, *atual = inicio;
-
-	while ((atual->proximo) != NULL) { // Enquanto o proximo nao for NULL(ou seja, "atual" eh o ultimo)
-		anterior = atual;
-		atual = atual->proximo;
-	}
-	return anterior;
+	return conteudo;
 
 }
 
-Pilha* pop(Pilha** inicio) { // Remove da pilha
+int estaVazia(Pilha *atual) { // Retorna 1 se a pilha esta vazia e 0, caso contrario
 
-	if (inicio == NULL)
-		return NULL;
-
-	Pilha *penultimo = secondTop(*inicio), *removido = *inicio;
-
-	if (penultimo != NULL) {
-
-		removido = penultimo->proximo;
-		penultimo->proximo = NULL;
-	
-	} else
-		*inicio = NULL;
-
-	return removido;
-
-}
-
-int estaVazia(Pilha *p) { // Retorna 1 se a pilha esta vazia e 0, caso contrario
-
-	if (p != NULL)
-		return 0;
-
-	return 1;
-
-}
-
-int visualizarPilha(Pilha* inicio) {
-
-	if (inicio == NULL)
+	if (atual == NULL || atual->conteudo == '\0')
 		return 1;
-
-	Pilha *auxiliar = inicio;
-
-	while (auxiliar != NULL) {
-		printf("\n%c", auxiliar->x);
-		auxiliar = auxiliar->proximo;
-	}
-	printf("\n");
 
 	return 0;
 
 }
+
+int visualizarPilha(Pilha* atual) {
+
+	if (atual == NULL)
+		return 1;
+
+	Pilha *auxiliar = atual;
+
+	printf("\n---INICIO---");
+	while (estaVazia(auxiliar) != 1) {
+		printf("\n[%c]", auxiliar->conteudo);
+		auxiliar = auxiliar->proximo;
+	}
+	printf("\n---FIM------");
+
+	return 0;
+
+}
+
+int tamanhoPilha(Pilha* atual) {
+
+	int tamanho = 0;
+
+	Pilha *auxiliar = atual;
+
+	while (estaVazia(auxiliar) != 1) {
+		tamanho++;
+		auxiliar = auxiliar->proximo;
+	}
+
+	return tamanho;
+
+}
+

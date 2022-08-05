@@ -5,103 +5,124 @@
 #include <ctype.h>
 #include "Pilha.h"
 
-int leEntradaNumerica(char *strEntrada, int tamanho, int* opcao) {
+int ehUmNumeroOuLetra(char c) {
+	return (isalpha(c) || isdigit(c));
+}
 
+int ehUmOperador(char c) {
+	return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
+}
+
+int retornaPrecedencia(char c) {
+	if (c == '+' || c == '-')
+	       return 1;
+	if (c == '*' || c == '/')
+		return 2;
+	if (c == '^')
+		return 3;
+	return 0;
+}
+
+void novaExpressao(int *i, int *posicaoSaida, char *array, char *saida) {
+
+	int j = *i;
+	Pilha *operadores = criarPilha();
+
+	if (ehUmOperador(array[j]))
+		saida[(*posicaoSaida)++] = array[j++];
+
+	while (array[j] != ')') {
+
+		if (ehUmNumeroOuLetra(array[j]))
+			saida[(*posicaoSaida)++] = array[j];
+
+ 		else if (ehUmOperador(array[j])) {
+			
+			if (estaVazia(operadores) != 1) // Se a pilha nao estiver vazia
+				if (retornaPrecedencia(array[j]) <= retornaPrecedencia(top(operadores)->conteudo)) // Se procedencia: do atual <= topo da pilha
+					saida[(*posicaoSaida)++] = pop(&operadores); // desenpilha a do topo
+			
+			push(&operadores, array[j]);
+
+		}
+		else if (array[j] == '(') { // Se encontrar uma expessao dentro de outra entre parenteses
+			
+			*i = ++j;
+			novaExpressao(i, posicaoSaida, array, saida);
+			j = (*i);
+			
+			// Esvazia operadores, se ouverem
+			while (estaVazia(operadores) != 1)
+				saida[(*posicaoSaida)++] = pop(&operadores);
+
+		}
+
+		j++;	
+	}
 	
-	memset(strEntrada, 0, tamanho);	
-	scanf("%s", strEntrada);
+	// Esvazia operadores, se ouverem
+	while (estaVazia(operadores) != 1)
+		saida[(*posicaoSaida)++] = pop(&operadores);
 
-	return sscanf(strEntrada, "%d", opcao);
+	*i = j;
+
+}
+
+char* infixaParaPosfixa(char *array) {
+
+	int i, posicaoSaida = 0, tamanho = (int) strlen(array);
+
+	char *saida = (char*) malloc(sizeof(char) * tamanho);
+
+	for (i = 0; tamanho > i; i++) {
 		
+		if (array[i] == '(')
+			continue;
+		else if (ehUmNumeroOuLetra(array[i]))
+			novaExpressao(&i, &posicaoSaida, array, saida);
+		else
+			printf("\nEh um caracter estranho: \"%c\"!\n", array[i]);
+	
+	}
+
+	return saida;
+}
+
+void fazTeste(char *array, char *resultadoCorreto) {
+	
+	char *saida = infixaParaPosfixa(array);
+
+	printf("\nEntrada  = [%s]", array);
+	printf("\nSaida    = [%s]\n", saida);
+	printf(  "Resposta = [%s]\n", resultadoCorreto);
+
+	if (strncmp(saida, resultadoCorreto, strlen(resultadoCorreto)) == 0) 
+		printf("\nSao iguais.\n");
+	else 
+		printf("\nNao sao iguais.\n");
+
 }
 
 int main()
 {
 
-	int opcao;
-	Pilha *auxiliar;
-	Pilha *inicio = NULL; //= criarPilha(inicio);
-	char entrada[1], caractere; // A entrada eh composta de apenas um algarismo
-
-	/* VISUALIZANDO */
-
-	while (1) {
-		
-
-		printf("\n|----------------------------------|");
-		printf("\n| Escolha o que fazer:             |");
-		printf("\n|----------------------------------|");
-		printf("\n| 1 - Push;                        |");
-		printf("\n| 2 - Pop;                         |");
-		printf("\n| 3 - Visualizar Pilha;            |");
-		printf("\n| 4 - Top;                         |");
-		printf("\n| 5 - Sair.                        |");
-		printf("\n|----------------------------------|\n");
+	char array1[] = {'(', 'A', '+', 'B', '*', 'C', ')', '\0'}, 
+	     resultadoCorreto1[] = "ABC*+\0";
 	
-	// ENTRADA
+	char array2[] = {'(', 'A', '*', '(', 'B', '+', 'C', ')', '/', 'D', '-', 'E', ')', '\0'}, 
+	     resultadoCorreto2[] = "ABC+*D/E-\0";
 	
-		printf("\nDigite um numero: ");
-		leEntradaNumerica(entrada, 1, &opcao);	
+	char array3[] = {'(', 'A', '+', 'B', '*', '(', 'C', '-', 'D', '*', '(', 'E', '-', 'F', ')', '-', 'G', '*', 'H', ')', '-', 'I', '*', 'J', ')', '\0'}, 
+	     resultadoCorreto3[] = "ABCDEF-*-GH*-*+IJ*-\0";
 
-	// MENU
+	char array4[] = {'(', 'A', '+', 'B', '*', 'C', '/', '(', 'D', '-' ,'E', ')', ')', '\0'},
+	     resultadoCorreto4[] = "ABC*DE-/+\0";
 
-		switch (opcao) {
-		
-			case 1:
+	fazTeste(array1, resultadoCorreto1);
+	fazTeste(array2, resultadoCorreto2);
+	fazTeste(array3, resultadoCorreto3);
+	fazTeste(array4, resultadoCorreto4);
 
-				printf("\nDigite um caracter: ");
-				caractere = '\0'; // Limpa caractere
-				memset(entrada, 0, 1); // Limpa entrada
-				scanf(" %c", entrada);
-				sscanf(entrada, "%c", &caractere);
-		
-				if (inicio == NULL)
-					inicio = push(inicio, caractere);
-				else
-					push(inicio, caractere);
-
-			break;
-
-			case 2:
-
-				if (pop(&inicio) == NULL) 
-					printf("A Pilha esta vazia!\n");
-
-			break;
-
-			case 3:
-
-				printf("\nVisualizar pilha(da base ao topo): \n");
-				if (visualizarPilha(inicio) == 1)
-					printf("A Pilha esta vazia!\n");
-
-			break;
-
-			case 4:
-
-				if (visualizarPilha(inicio) == 1)
-					printf("A Pilha esta vazia!\n");
-				else
-					printf("\nTopo da pilha: %c\n", top(inicio)->x);
-
-			break;
-
-			case 5:
-
-				printf("\nSaindo...\n");
-				exit(0);
-
-			break;
-
-			default:
-				printf("\n\nOpcao invalida: %i \n\n", opcao);
-			
-		}
-
-		scanf("%*[^\n]"); // Limpa buffer de entrada
-
-	}
-	
 	return 0;
 
 }
