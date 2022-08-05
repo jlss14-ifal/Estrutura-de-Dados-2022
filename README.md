@@ -7,7 +7,6 @@ Contém exercícios sobre:
 
 - Listas:
 	- Simplesmente encadeadas:
-		- Lista simples;
-		- Fila simples.
-		- Pilha simples(ainda sendo feita);
+		- Fila simples;
+		- Pilha simples.
 

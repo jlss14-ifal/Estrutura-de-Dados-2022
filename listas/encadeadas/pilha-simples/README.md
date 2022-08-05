@@ -14,4 +14,9 @@ Utilizando listas encadeadas ou vetores, implemente um programa em C, com as fun
 - char pop(Pilha *p) – remover o elemento do topo da pilha
 - int estaVazia(Pilha *p) – retorna 1 se a pilha está vazia e 0, caso contrário 
 
-E utilizando o tipo pilha criado, implemente uma função que leia uma string em notação infixa e apresente a notação pósfixa equivalente. 
+E utilizando o tipo pilha criado, implemente uma função que leia uma string em notação infixa e apresente a notação pósfixa equivalente.
+
+## Notas 
+### 1
+Nessa pilha coloquei também a função "tamanhoPilha(Pilha)" para saber o tamanho da pilha.
+ 
