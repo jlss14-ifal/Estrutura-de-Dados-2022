@@ -9,4 +9,6 @@ Contém exercícios sobre:
 	- Simplesmente encadeadas:
 		- Fila simples;
 		- Pilha simples.
+	- Duplamente encadeadas:
+		- 
 
