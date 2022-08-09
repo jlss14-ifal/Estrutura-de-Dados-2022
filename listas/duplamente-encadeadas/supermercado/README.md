@@ -18,3 +18,7 @@ desejado.
 	- Serão observados no código: bons modos de programação, implementação correta das funcionalidades pedidas;
 	- Trabalhos iguais ou copiados na Internet receberão nota zero.
 
+# Notas
+
+## 1
+Na solução feita, a recursividade foi usada na função "execucaoQuick(...)" do arquivo "ListaOrdenacao.c".

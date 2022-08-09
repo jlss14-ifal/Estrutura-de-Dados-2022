@@ -23,3 +23,8 @@ void produtoVisualizar(Produto* produto) {
 	printf("\n------------\n");
 }
 
+void liberaProduto(Produto* produto) {
+	free(produto->descricao);
+	free(produto);
+}
+

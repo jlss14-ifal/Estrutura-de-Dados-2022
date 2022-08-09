@@ -42,7 +42,8 @@ void main() {
 	int opcao = 0, codigo = 0, quantidade = 0, quantidadeComparacoes = 0, quantidadeTrocas = 0;
 	float preco = 0.0;
 	char *temporario = (char*) malloc(sizeof(char) * 50), 
-	     *descricao = (char*) malloc(sizeof(char) * 50);
+	     *descricao = NULL; 
+
 	ManutencaoProdutos* manutencaoProdutos = criarManutencaoProdutos();
 
 	while (1) {
@@ -76,6 +77,7 @@ void main() {
 					continue;
 				}			
 				
+	     			descricao = (char*) malloc(sizeof(char) * 50);
 				perguntaDadosProduto(temporario, &codigo, descricao, &preco, &quantidade, 1);
 
 				if (cadastrarProduto(manutencaoProdutos, codigo, descricao, preco, quantidade)) {
@@ -130,11 +132,17 @@ void main() {
 				printf("\nDigite o código do produto:\n");
 				leEntrada(temporario, 50, "%d", &codigo);
 
-				if (consultarProduto(manutencaoProdutos, codigo, &quantidadeComparacoes) != NULL)
-					printf("Produto encontrado.\nForam feitas %i comparações.\n", quantidadeComparacoes);
-				else
-					printf("Produto não encontrado!\nForam feitas %i comparações.\n", quantidadeComparacoes);
-
+				if (consultarProduto(manutencaoProdutos, codigo, &quantidadeComparacoes) != NULL) {
+					printf("\n------------------------------");
+					printf("\n|Produto encontrado.         |");
+					printf("\n|Foram feitas %i comparações.|", quantidadeComparacoes);
+					printf("\n------------------------------\n");
+				} else {
+					printf("\n------------------------------");
+					printf("\n|Produto não encontrado!     |");
+					printf("\n|Foram feitas %i comparações.|", quantidadeComparacoes);
+					printf("\n------------------------------\n");
+				}
 				quantidadeComparacoes = 0;
 
 			break;
@@ -150,7 +158,6 @@ void main() {
 
 				printf("\n---Atualizar Produto---\n");
 
-
 				printf("\nDigite o código:\n");
 				leEntrada(temporario, 50, "%d", &codigo);
 
@@ -162,6 +169,7 @@ void main() {
 					continue;
 				}
 
+	     			descricao = (char*) malloc(sizeof(char) * 50);
 				perguntaDadosProduto(temporario, &codigo, descricao, &preco, &quantidade, 1);
 				
 				if (atualizarProduto(manutencaoProdutos, codigo, descricao, preco, quantidade)) {

@@ -131,7 +131,7 @@ int removerProduto(ManutencaoProdutos* manutencaoProdutos, int codigo) {
 	if ((manutencaoProdutos->listaFim) == encontrado)
 		manutencaoProdutos->listaFim = encontrado->ante;
 
-	free( ((Produto*) encontrado->elemento) ); // Libera Produto
+	liberaProduto( ((Produto*) encontrado->elemento) ); 
 	free(encontrado); // Libera Lista
 	
 	return 1;

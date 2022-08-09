@@ -12,3 +12,5 @@ Produto* criarProduto(int codigo, char* descricao, float preco, int quantidade);
 
 void produtoVisualizar(Produto* produto);
 
+void liberaProduto(Produto* produto);
+
