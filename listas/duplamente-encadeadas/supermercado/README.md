@@ -12,7 +12,7 @@ Fazer uma aplicação para a manutenção de produtos de um supermercado. Para c
 - Na implementação do item 3 deverá ser perguntando ao usuário qual o método de pesquisa: sequencial ou binário, e no final além de exibir se o produto está cadastrado ou não, deverá exibir quantas comparações foram executadas até encontrar ou não o produto
 desejado.
 
-* É possível aplicar recursividade? Indique no código onde e como poderia ser usado esse conceito. 
+*É possível aplicar recursividade? Indique no código onde e como poderia ser usado esse conceito.*
 
 - Observações:
 	- Serão observados no código: bons modos de programação, implementação correta das funcionalidades pedidas;

@@ -29,12 +29,12 @@ int listaQuantidadeElementos(Lista *inicio) {
 	
 	if (listaEstaVazia(inicio))
 		return 0;
-	
+
 	int quantidade = 0;
 
 	Lista *auxiliar = inicio;
 		    
-	while ((auxiliar->elemento) != NULL) {
+	while (auxiliar != NULL && (auxiliar->elemento) != NULL) {
 		quantidade++;
 		auxiliar = auxiliar->prox;
 	}

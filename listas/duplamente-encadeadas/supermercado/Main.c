@@ -25,6 +25,7 @@ void perguntaDadosProduto(char* temporario, int* codigo, char* descricao, float*
 
 	}
 
+	memset(descricao, '\0', 50);
 	printf("\nDigite a descrição:\n");
 	leEntrada(temporario, 50, "%s", descricao);
 
@@ -99,13 +100,14 @@ void main() {
 
 				printf("\nOrdenar com:\n	1 - Bolha(Bubble sort);\n	2 - Rápida(Quick sort).\n\nResposta: ");
 				leEntrada(temporario, 50, "%d", &opcao);
+
 				printf("\nProdutos cadastrados:\n");
 
 				if (opcao)
-					ordenacaoBubble(&(manutencaoProdutos->listaInicio), &quantidadeTrocas);
+					ordenacaoBubble((manutencaoProdutos->listaInicio), &quantidadeTrocas);
 				else
-					ordenacaoQuick(&(manutencaoProdutos->listaInicio), &quantidadeTrocas);
-				
+					ordenacaoQuick((manutencaoProdutos->listaInicio), (manutencaoProdutos->listaFim), &quantidadeTrocas);
+	
 				exibirProdutos(manutencaoProdutos);
 
 				printf("\n------------------------------");
@@ -129,9 +131,9 @@ void main() {
 				leEntrada(temporario, 50, "%d", &codigo);
 
 				if (consultarProduto(manutencaoProdutos, codigo, &quantidadeComparacoes) != NULL)
-					printf("Produto encontrado.\nForam feitas %i comparações.", quantidadeComparacoes);
+					printf("Produto encontrado.\nForam feitas %i comparações.\n", quantidadeComparacoes);
 				else
-					printf("Produto não encontrado!\nForam feitas %i comparações.", quantidadeComparacoes);
+					printf("Produto não encontrado!\nForam feitas %i comparações.\n", quantidadeComparacoes);
 
 				quantidadeComparacoes = 0;
 
