@@ -1,4 +1,6 @@
-# Enunciado
+# Duplamente encadeada
+
+## Enunciado
 
 Fazer uma aplicação para a manutenção de produtos de um supermercado. Para cada produto são lidos: código, descrição, preço e quantidade em estoque. O número de produtos é indeterminado. Pede-se que a aplicação apresente o seguinte menu para ser usado pelo gerente do supermercado:
 
@@ -18,12 +20,12 @@ desejado.
 	- Serão observados no código: bons modos de programação, implementação correta das funcionalidades pedidas;
 	- Trabalhos iguais ou copiados na Internet receberão nota zero.
 
-# Notas
+## Notas
 
-## 1
+### 1
 Na solução feita, a recursividade foi usada na função "execucaoQuick(...)" do arquivo "ListaOrdenacao.c".
 
-## 2
+### 2
 Para executar:
 - No Windows:
 	- Execute o arquivo "run.bat".

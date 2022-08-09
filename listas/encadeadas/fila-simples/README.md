@@ -20,3 +20,9 @@ Uma das estruturas de dados bastante utilizadas em Computação é a Fila. Ela t
 ### 1
 Para evitar de "print infinito" quando é digitado algo diferente de algarismo em 'scanf("%i", &entrada)', foi criada a função (em Main.c) 'leEntradaNumerica(char *strEntrada, int tamanho, int *saida)' para tratar desses erros.
 
+### 2
+Para executar:
+- No Windows:
+	- Execute o arquivo "run.bat".
+- No Linux:
+	- Execute o arquivo "run.sh".

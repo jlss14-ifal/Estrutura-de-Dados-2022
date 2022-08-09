@@ -1,3 +1,4 @@
+# Pilha 
 
 ## Enunciado
 
@@ -10,4 +11,14 @@ Utilizando listas encadeadas ou vetores, implemente um programa em C, com as fun
 - void push(Pilha *p, char x) - inserir um elemento na pilha
 - char top (Pilha *p) - exibir o elemento do topo da pilha
 - char pop(Pilha *p) – remover o elemento do topo da pilha
-- int estaVazia(Pilha *p) – retorna 1 se a pilha está vazia e 0, caso contrário  
+- int estaVazia(Pilha *p) – retorna 1 se a pilha está vazia e 0, caso contrário 
+
+## Notas
+
+### 1
+Para executar:
+- No Windows:
+	- Execute o arquivo "run.bat".
+- No Linux:
+	- Execute o arquivo "run.sh".
+ 

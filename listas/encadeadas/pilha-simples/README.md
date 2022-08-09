@@ -20,3 +20,9 @@ E utilizando o tipo pilha criado, implemente uma função que leia uma string em
 ### 1
 Nessa pilha coloquei também a função "tamanhoPilha(Pilha)" para saber o tamanho da pilha.
  
+### 2
+Para executar:
+- No Windows:
+	- Execute o arquivo "run.bat".
+- No Linux:
+	- Execute o arquivo "run.sh".

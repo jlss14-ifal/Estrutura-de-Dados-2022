@@ -57,3 +57,9 @@ Por fins de conveniência/didática, as opções da resposta está:
 
 10 - finalizar.
 
+### 3
+Para executar:
+- No Windows:
+	- Execute o arquivo "run.bat".
+- No Linux:
+	- Execute o arquivo "run.sh".
