@@ -22,3 +22,10 @@ desejado.
 
 ## 1
 Na solução feita, a recursividade foi usada na função "execucaoQuick(...)" do arquivo "ListaOrdenacao.c".
+
+## 2
+Para executar:
+- No Windows:
+	- Execute o arquivo "run.bat".
+- No Linux:
+	- Execute o arquivo "run.sh".
